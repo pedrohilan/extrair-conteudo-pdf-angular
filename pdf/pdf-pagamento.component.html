@@ -1,0 +1,69 @@
+<form [formGroup]="formulario">
+  <div class="conteiner-responsivo">
+    <div class="c-xlg-2 c-lg-3 c-md-3 c-sm-12">
+      <div class="tituloInput">Ano:
+        @if (this.formulario.get('ano')?.hasValidator(obrigatorio)) {
+        <small>*</small>
+        }
+      </div>
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-select formControlName="ano">
+            @for (ano of anos; track ano) {
+            <mat-option [value]="ano">{{ano}}</mat-option>
+            }
+          </mat-select>
+          @if (this.formulario.get('ano')?.invalid) {
+          <mat-error>{{"Selecione um ano válido"}}</mat-error>
+          }
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</form>
+
+<table mat-table [dataSource]="dataSource">
+  @for (coluna of colunas; track coluna) {
+  <ng-container [matColumnDef]="coluna.def">
+    <th mat-header-cell *matHeaderCellDef>
+      {{coluna.cabecalho}}
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <ng-container *ngIf="coluna.def == 'valorDebitado'; else linhaPrograma">
+        {{ coluna.conteudo(row) | currency: 'BRL' }}
+      </ng-container>
+      <ng-template #linhaPrograma>
+        <ng-container *ngIf="coluna.def == 'programa'; else linhaData">
+          <mat-icon *ngIf="!coluna.subconteudo(row)"
+            (click)="abrirDialogoSelecionarPrograma(coluna.conteudo(row))">add_circle_outline</mat-icon>
+          <img src="../assets/done.svg" *ngIf="coluna.subconteudo(row)" (click)="abrirDialogoSelecionarPrograma(coluna.conteudo(row))">
+        </ng-container>
+      </ng-template>
+      <ng-template #linhaData>
+        <ng-container *ngIf="coluna.def == 'dataDebito'; else linhaMes">
+          {{ coluna.conteudo(row) | date: 'dd/MM/yyyy' }}
+        </ng-container>
+      </ng-template>
+      <ng-template #linhaMes>
+        <ng-container *ngIf="coluna.def == 'mesReferencia'; else linhaNormal">
+          <mat-select *ngIf="coluna.subconteudo(row) == ''" (selectionChange)="setarMesSelecionado($event.value, coluna.conteudo(row))">
+            @for (mes of meses; track mes) {
+            <mat-option [value]="mes">{{mes.descricao}}</mat-option>
+            }
+          </mat-select>
+          <div *ngIf="coluna.subconteudo(row) != ''">
+            {{coluna.subconteudo(row)}} <mat-icon (click)="setarMesSelecionado(undefined, coluna.conteudo(row))">close</mat-icon>
+          </div>
+        </ng-container>
+      </ng-template>
+      <ng-template #linhaNormal>
+        {{ coluna.conteudo(row) }}
+      </ng-template>
+    </td>
+  </ng-container>
+  }
+  <tr mat-header-row *matHeaderRowDef="mostrarColunasDinamicas"></tr>
+  <tr mat-row *matRowDef="let row; columns: mostrarColunasDinamicas;"></tr>
+</table>
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+</mat-paginator>

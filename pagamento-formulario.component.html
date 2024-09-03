@@ -1,0 +1,22 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="tituloCard"><strong>Cadastro de Informações de PDF</strong></mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <pdf-registro [conteudo]="conteudoPDF()"></pdf-registro>
+    <div>
+      <div>
+        <button mat-flat-button color="primary" (click)="concluirCadastroPDF()">
+          <mat-icon>done</mat-icon>
+          Concluir
+        </button>
+      </div>
+      <div>
+        <button mat-stroked-button color="primary" (click)="cancelarCadastroPDF()">
+          <mat-icon>clear</mat-icon>
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

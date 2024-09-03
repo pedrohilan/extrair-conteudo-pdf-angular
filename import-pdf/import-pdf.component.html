@@ -1,0 +1,10 @@
+<div>
+  <div>
+    <div>
+      <input type="file" #entradaArquivo style="display: none" accept=".pdf" (change)="importarPDF($event)">
+      <button mat-flat-button color="accent" (click)="entradaArquivo.click()">
+        <mat-icon>vertical_align_top</mat-icon>
+        Importar PDF</button>
+    </div>
+  </div>
+</div>

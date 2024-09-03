@@ -1,0 +1,25 @@
+.mat-column-municipio {
+  width: 15%;
+}
+.mat-column-valorDebitado {
+  width: 15%;
+}
+.mat-column-programa {
+  width: 15%;
+  text-align: center;
+  mat-icon,
+  img {
+    cursor: pointer;
+  }
+}
+.mat-column-dataDebito {
+  width: 10%;
+}
+.mat-column-mesReferencia {
+  width: 15%;
+  text-align: center;
+  mat-icon {
+    cursor: pointer;
+    vertical-align: middle;
+  }
+}
